@@ -4,6 +4,7 @@ import notificationIcon from '../../assets/icons/notification.svg';
 
 import avatar from '../../assets/images/avatars/avatar_1.png'
 import Logout from './Logout';
+import {Link} from 'react-router-dom'
 
 
 export default function Header() {
@@ -19,10 +20,10 @@ export default function Header() {
         </a>
         {/* nav links  */}
         <div className="flex items-center space-x-4">
-          <a href="./index.html" className="btn-primary">
+          <Link to='/' className="btn-primary">
             <img src={homeIcon} alt="Home" />
             Home
-          </a>
+          </Link>
           <button className="icon-btn">
             <img src={notificationIcon} alt="Notification" />
           </button>
