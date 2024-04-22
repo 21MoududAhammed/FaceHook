@@ -2,6 +2,7 @@ import Field from "../common/Field";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import api from "../../api/api";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -9,17 +10,30 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
 
-  const {setAuth} = useAuth();
+  const { setAuth } = useAuth();
 
-  const onSubmit = (formData) => {
-    const user = {...formData};
-    setAuth({user});
-
-    // make an API call and get auth token and user info 
-
-    navigate("/");
+  const onSubmit = async (formData) => {
+    // make an API call and get auth token and user info
+    try {
+      const response = await api.post("/auth/login", { ...formData });
+      if (response.status === 200) {
+        const { token, user } = response.data;
+        const authToken = token.token;
+        const refreshToken = token.refreshToken;
+        setAuth({ user, authToken, refreshToken });
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err);
+      // set error to the react-hook-form
+      setError("root.random", {
+        type: "random",
+        message: `User with email ${formData.email} is not found.`,
+      });
+    }
   };
 
   return (
@@ -55,9 +69,9 @@ export default function LoginForm() {
               lowercase: (value) =>
                 /[a-z]/.test(value) ||
                 "Password must contain at least one lowercase letter",
-              specialCharacter: (value) =>
-                /[@$!%*?&]/.test(value) ||
-                "Password must contain at least a special character",
+              // specialCharacter: (value) =>
+              //   /[@$!%*?&]/.test(value) ||
+              //   "Password must contain at least a special character",
             },
           })}
           className="auth-input"
@@ -67,7 +81,8 @@ export default function LoginForm() {
           placeholder="Enter Password"
         />
       </Field>
-
+      {/* error message  */}
+      <p className="text-red-600 text-xs ">{errors?.root?.random?.message}</p>
       <Field>
         <button
           className="auth-input bg-lwsGreen font-bold text-deepDark transition-all hover:opacity-90 mt-5"
