@@ -36,6 +36,7 @@ const useAxios = () => {
 
                 //retry the original request with the new token 
                 originalRequest.headers.Authorization = `Bearer ${token}`;
+                // in originalRequest we have every information about the previous request like what was the method and other things that's why we are not using any method like post or get 
                 return axios(originalRequest);
                 
             }catch(err){
