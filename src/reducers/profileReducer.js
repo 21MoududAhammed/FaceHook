@@ -26,6 +26,7 @@ const profileReducer = (state,action) =>{
         case actions.profile.DATA_FETCH_ERROR:{
             return {
                 ...state,
+                loading: false,
                 error: action.payload,
             }
         }

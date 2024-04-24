@@ -1,16 +1,14 @@
-import { useEffect, useState, useReducer } from "react";
+import { useEffect } from "react";
+import { actions } from "../actions/index.jsx";
+import ProfileDetails from "../components/profile/ProfileDetails.jsx";
 import useAuth from "../hooks/useAuth";
 import useAxios from "../hooks/useAxios";
-import useProfile from '../hooks/useProfile.js'
-import { initialState, profileReducer } from "../reducers/profileReducer";
-import {actions} from '../actions/index.jsx';
+import useProfile from "../hooks/useProfile.js";
 
 export default function ProfilePage() {
-
   const { auth } = useAuth();
   const { api } = useAxios();
-  const {state,dispatch} = useProfile();
-
+  const { state, dispatch } = useProfile();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -19,13 +17,15 @@ export default function ProfilePage() {
       });
       try {
         const response = await api.get(`/profile/${auth?.user?.id}`);
-        dispatch({
-          type: actions.profile.DATA_FETCHED,
-          payload: {
-            posts: response?.data?.posts,
-            user: response?.data?.user,
-          },
-        });
+        if (response.status === 200) {
+          dispatch({
+            type: actions.profile.DATA_FETCHED,
+            payload: {
+              posts: response?.data?.posts,
+              user: response?.data?.user,
+            },
+          });
+        }
       } catch (err) {
         console.log(err);
         dispatch({
@@ -42,12 +42,8 @@ export default function ProfilePage() {
   }
 
   return (
-    <div>
-      <h1>
-        Name: {state?.user?.firstName} {state?.user?.lastName}
-      </h1>
-      <h2>posts: {state?.posts?.length}</h2>
-      {state?.error && <h1>{state?.error}</h1>}
-    </div>
+    <>
+      <ProfileDetails />
+    </>
   );
 }
