@@ -9,7 +9,6 @@ import { getTimeBasedOnCreationTime } from '../../utils/index'
 export default function PostHeader({ post }) {
   const [isShow, setIsShow] = useState(false);
   const avatarURL = useAvatar(post);
-  console.log(post);
   return (
     <header className="flex items-center justify-between gap-4">
       {/* author info */}
