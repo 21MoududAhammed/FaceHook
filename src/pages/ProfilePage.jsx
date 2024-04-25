@@ -4,6 +4,7 @@ import ProfileDetails from "../components/profile/ProfileDetails.jsx";
 import useAuth from "../hooks/useAuth";
 import useAxios from "../hooks/useAxios";
 import useProfile from "../hooks/useProfile.js";
+import PostList from "../components/posts/PostList.jsx";
 
 export default function ProfilePage() {
   const { auth } = useAuth();
@@ -42,8 +43,10 @@ export default function ProfilePage() {
   }
 
   return (
-    <>
+    <div>
       <ProfileDetails />
-    </>
+      <h4 className="mt-6 text-xl lg:mt-8 lg:text-2xl">Your Posts</h4>
+      <PostList posts={state?.posts}/>
+    </div>
   );
 }
