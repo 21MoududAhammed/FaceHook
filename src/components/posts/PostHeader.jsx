@@ -1,13 +1,15 @@
 import threeDots from "../../assets/icons/3dots.svg";
 import editIcon from '../../assets/icons/edit.svg';
 import deleteIcon from '../../assets/icons/delete.svg';
+import timeIcon from '../../assets/icons/time.svg';
 import { useState } from "react";
 import useAvatar from "../../hooks/useAvatar";
+import { getTimeBasedOnCreationTime } from '../../utils/index'
 
 export default function PostHeader({ post }) {
   const [isShow, setIsShow] = useState(false);
   const avatarURL = useAvatar(post);
-//   console.log(post);
+  console.log(post);
   return (
     <header className="flex items-center justify-between gap-4">
       {/* author info */}
@@ -20,9 +22,9 @@ export default function PostHeader({ post }) {
         <div>
           <h6 className="text-lg lg:text-xl">{post?.author?.name}</h6>
           <div className="flex items-center gap-1.5">
-            <img src="./assets/icons/time.svg" alt="time" />
+            <img src={timeIcon} alt="time" />
             <span className="text-sm text-gray-400 lg:text-base">
-              12 min ago
+              {getTimeBasedOnCreationTime(post?.createAt)}
             </span>
           </div>
         </div>
