@@ -8,7 +8,7 @@ export default function PostCard({post}){
         <article className="card mt-6 lg:mt-8">
             <PostHeader post={post}/>
             <PostBody post={post}/>
-            <PostActions/>
+            <PostActions post={post}/>
             <PostComments/>
         </article>
     );
