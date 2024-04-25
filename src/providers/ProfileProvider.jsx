@@ -6,7 +6,6 @@ import { profileReducer, initialState } from "../reducers/profileReducer";
 const ProfileProvider =({children})=>{
 
     const [state, dispatch] = useReducer(profileReducer, initialState);
-    const name = 'Moudud';
 
     return(
         <ProfileContext.Provider value={{state, dispatch}}>

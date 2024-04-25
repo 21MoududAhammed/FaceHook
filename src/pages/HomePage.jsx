@@ -1,39 +1,45 @@
 import useAxios from "../hooks/useAxios";
 import NewPost from "../components/home/NewPost";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import PostList from "../components/posts/PostList";
+import { actions } from "../actions";
+import { initialState, postReducer } from "../reducers/postReducer";
 
 export default function HomePage() {
   const { api } = useAxios();
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [state, dispatch] = useReducer(postReducer, initialState);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        setLoading(true);
+        dispatch({
+          type: actions.post.DATA_FETCHING,
+        });
         const response = await api.get("/posts");
         if (response?.status === 200) {
-          setPosts(response.data);
+          dispatch({
+            type: actions.post.DATA_FETCHED,
+            payload: response.data,
+          });
         }
       } catch (err) {
         console.log(err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
+        dispatch({
+          type: actions.post.DATA_FETCH_ERROR,
+          payload: err.message,
+        });
       }
     };
     fetchPosts();
   }, []);
 
-  if (loading) return <div>Loading.....</div>;
-  if (error) return <div>{error}</div>;
+  if (state?.loading) return <div>Loading.....</div>;
+  if (state?.error) return <div>{state?.error}</div>;
 
   return (
     <div>
       <NewPost />
-      <PostList posts={posts} />
+      <PostList posts={state?.posts} />
     </div>
   );
 }
