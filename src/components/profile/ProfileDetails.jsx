@@ -3,6 +3,7 @@ import ProfileImage from "./ProfileImage";
 import useProfile from '../../hooks/useProfile'
 
 export default function ProfileDetails() {
+  
   const {state} = useProfile()
 
   return (
