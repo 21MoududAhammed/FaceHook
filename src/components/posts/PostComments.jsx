@@ -2,9 +2,13 @@ import useAvatar from "../../hooks/useAvatar";
 import { useState } from "react";
 import Comment from "./Comment";
 import useAxios from "../../hooks/useAxios";
+import useAuth from '../../hooks/useAuth';
+import useProfile from '../../hooks/useProfile';
 
-export default function PostComments({ post, onCommentsQuantity }) {
-  const avatarUrl = useAvatar(post);
+export default function PostComments({ post, onCommentsQuantity, commentQuantity }) {
+  const {auth} = useAuth();
+  const {state} = useProfile();
+  const avatarUrl = state?.user?.avatar ?? auth?.user?.avatar ;
   const { api } = useAxios();
   const [isShow, setIsShow] = useState(false);
   const [comment, setComment] = useState("");
@@ -34,7 +38,7 @@ export default function PostComments({ post, onCommentsQuantity }) {
       <div className="flex-center mb-3 gap-2 lg:gap-4">
         <img
           className="w-7 h-7 rounded-full lg:max-h-[34px] lg:max-w-[34px]"
-          src={avatarUrl}
+          src={`${import.meta.env.VITE_BASE_SERVER_URL}/${avatarUrl}`}
           alt="avatar"
         />
         <div className="flex-1">
@@ -51,7 +55,7 @@ export default function PostComments({ post, onCommentsQuantity }) {
         </div>
       </div>
       {/* comment filter button */}
-      {post?.comments.length > 0 && (
+      {commentQuantity > 0 && (
         <div className="mt-4">
           <button
             className="text-gray-300 max-md:text-sm"

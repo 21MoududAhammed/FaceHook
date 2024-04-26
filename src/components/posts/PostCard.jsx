@@ -14,7 +14,11 @@ export default function PostCard({ post }) {
       <PostHeader post={post} />
       <PostBody post={post} />
       <PostActions post={post} commentQuantity={commentQuantity} />
-      <PostComments post={post} onCommentsQuantity={handleCommentsQuantity} />
+      <PostComments
+        post={post}
+        onCommentsQuantity={handleCommentsQuantity}
+        commentQuantity={commentQuantity}
+      />
     </article>
   );
 }
