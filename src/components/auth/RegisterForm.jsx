@@ -1,17 +1,37 @@
 import { useForm } from "react-hook-form";
 import Field from "../../components/common/Field";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
+    setError,
   } = useForm();
 
-  const onSubmit = (formData) => {
-    console.log(formData);
+  const onSubmit = async (formData) => {
+    const { retypePassword, ...userData } = formData;
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_SERVER_URL}/auth/register`,
+        { ...userData }
+      );
+      if (response.status === 201) {
+        navigate("/login");
+      }
+    } catch (err) {
+      console.log(err);
+      setError("fetching_error", {
+        type: "random",
+        message: `Something went wrong: ${err.message}`,
+      });
+    }
   };
+
   //  watch the values of the password and retypePassword fields
   const password = watch("password", "");
   const retypePassword = watch("retypePassword", "");
@@ -102,7 +122,11 @@ export default function RegisterForm() {
           <span className="text-red-500 text-xs ">Passwords don't match.</span>
         )}
       </Field>
-
+      {errors?.fetching_error && (
+        <p className="text-red-500 text-xs">
+          {errors?.fetching_error?.message}
+        </p>
+      )}
       {/* Submit */}
       <button
         className="auth-input bg-lwsGreen font-bold text-deepDark transition-all hover:opacity-90"
