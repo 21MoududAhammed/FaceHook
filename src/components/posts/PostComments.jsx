@@ -1,11 +1,33 @@
 import useAvatar from "../../hooks/useAvatar";
 import { useState } from "react";
 import Comment from "./Comment";
+import useAxios from "../../hooks/useAxios";
 
-export default function PostComments({ post }) {
+export default function PostComments({ post, onCommentsQuantity }) {
   const avatarUrl = useAvatar(post);
+  const { api } = useAxios();
   const [isShow, setIsShow] = useState(false);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState(post?.comments);
 
+  const addComment = async (e) => {
+    const keyCode = e.keyCode;
+    if (keyCode === 13) {
+      try {
+        const response = await api.patch(
+          `${import.meta.env.VITE_BASE_SERVER_URL}/posts/${post.id}/comment`,
+          { comment }
+        );
+        if (response.status === 200) {
+          setComments([...response.data.comments]);
+          onCommentsQuantity(response.data.comments.length);
+          setComment("");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
   return (
     <div>
       {/* comment input box */}
@@ -22,6 +44,9 @@ export default function PostComments({ post }) {
             name="post"
             id="post"
             placeholder="What's on your mind?"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            onKeyDown={addComment}
           />
         </div>
       </div>
@@ -39,9 +64,9 @@ export default function PostComments({ post }) {
       {/* comments */}
       {isShow && (
         <div className="space-y-4 divide-y divide-lighterDark pl-2 lg:pl-3">
-          {
-            post?.comments.map((comment, index) => <Comment key={index} comment={comment}/>)
-          }
+          {comments?.map((comment, index) => (
+            <Comment key={index} comment={comment} />
+          ))}
         </div>
       )}
       {/* comments ends */}

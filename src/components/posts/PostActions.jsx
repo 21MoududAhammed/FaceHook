@@ -7,10 +7,9 @@ import useAxios from "../../hooks/useAxios";
 import { BiSolidLike } from "react-icons/bi";
 import { AiOutlineLike } from "react-icons/ai";
 
-export default function PostActions({ post }) {
+export default function PostActions({ post, commentQuantity }) {
   const { auth } = useAuth();
   const { api } = useAxios();
-  // console.log(post.id);
 
   const [liked, setLiked] = useState(post?.likes.includes(auth?.user?.id));
 
@@ -45,7 +44,7 @@ export default function PostActions({ post }) {
         <img src={commentIcon} alt="Comment" />
         <p>
           Comment
-          {post?.comments.length > 0 && <span>({post?.comments.length})</span>}
+          {commentQuantity > 0 && <span>({commentQuantity})</span>}
         </p>
       </button>
       {/* Share Button */}
