@@ -2,7 +2,7 @@ import useAuth from "../../hooks/useAuth";
 import useProfile from "../../hooks/useProfile";
 import defaultAvatar from '../../assets/icons/profile_avatar.png'
 
-export default function NewPost() {
+export default function NewPost({onTogglePostEntryUI}) {
   const { state } = useProfile();
   const { auth } = useAuth();
   const user = state?.user ?? auth?.user;
@@ -26,6 +26,7 @@ export default function NewPost() {
             id="post"
             placeholder="What's on your mind?"
             defaultValue={""}
+            onClick={onTogglePostEntryUI}
           />
         </div>
       </div>

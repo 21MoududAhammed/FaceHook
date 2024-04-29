@@ -1,13 +1,16 @@
 import useAxios from "../hooks/useAxios";
 import NewPost from "../components/home/NewPost";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import PostList from "../components/posts/PostList";
 import { actions } from "../actions";
 import { initialState, postReducer } from "../reducers/postReducer";
+import PostEntry from "../components/home/PostEntry";
+import usePosts from "../hooks/usePosts";
 
 export default function HomePage() {
   const { api } = useAxios();
-  const [state, dispatch] = useReducer(postReducer, initialState);
+  const {state, dispatch} = usePosts();
+  const [isShow, setIsShow] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -33,12 +36,20 @@ export default function HomePage() {
     fetchPosts();
   }, []);
 
+  const handleTogglePostEntryUI = () => {
+    setIsShow(!isShow);
+  };
+
   if (state?.loading) return <div>Loading.....</div>;
   if (state?.error) return <div>{state?.error}</div>;
 
   return (
     <div>
-      <NewPost />
+      {isShow ? (
+        <PostEntry onTogglePostEntryUI={handleTogglePostEntryUI} />
+      ) : (
+        <NewPost onTogglePostEntryUI={handleTogglePostEntryUI} />
+      )}
       <PostList posts={state?.posts} />
     </div>
   );

@@ -20,6 +20,19 @@ const postReducer = (state, action) => {
         posts: action.payload,
       };
     }
+    case actions.post.POST_CREATED: {
+      return {
+        ...state,
+        loading: false,
+        posts: [...state.posts, action.payload],
+      };
+    }
+    case actions.post.POST_DELETED:{
+      return{
+        ...state,
+        posts: [...state.posts.filter(item => item.id !== action.payload)]
+      }
+    }
     case actions.post.DATA_FETCH_ERROR: {
       return {
         ...state,
@@ -27,10 +40,11 @@ const postReducer = (state, action) => {
         error: action.payload,
       };
     }
+
     default: {
       return state;
     }
   }
 };
 
-export  {postReducer, initialState};
+export { postReducer, initialState };

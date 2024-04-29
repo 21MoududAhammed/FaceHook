@@ -5,6 +5,7 @@ export const actions ={
         "DATA_FETCH_ERROR": "PROFILE_DATA_FETCH_ERROR",
         "USER_DATA_EDITED": "PROFILE_USER_DATA_EDITED",
         "IMAGE_UPDATED": "PROFILE_IMAGE_UPDATED",
+        "PROFILE_POST_DELETED": "PROFILE_POST_DELETED",
     },
 
     post:{
@@ -13,5 +14,7 @@ export const actions ={
         "DATA_FETCH_ERROR": "POST_DATA_FETCH_ERROR",
         "USER_DATA_EDITED": "POST_USER_DATA_EDITED",
         "IMAGE_UPDATED": "POST_IMAGE_UPDATED",
+        "POST_CREATED": "POST_CREATED",
+        "POST_DELETED": "POST_DELETED",
     }
 }

@@ -1,14 +1,18 @@
 import threeDots from "../../assets/icons/3dots.svg";
-import editIcon from '../../assets/icons/edit.svg';
-import deleteIcon from '../../assets/icons/delete.svg';
-import timeIcon from '../../assets/icons/time.svg';
+import editIcon from "../../assets/icons/edit.svg";
+import deleteIcon from "../../assets/icons/delete.svg";
+import timeIcon from "../../assets/icons/time.svg";
 import { useState } from "react";
 import useAvatar from "../../hooks/useAvatar";
-import { getTimeBasedOnCreationTime } from '../../utils/index'
+import { getTimeBasedOnCreationTime } from "../../utils/index";
+import useAuth from "../../hooks/useAuth";
 
-export default function PostHeader({ post }) {
+export default function PostHeader({ post, onDeletePost }) {
   const [isShow, setIsShow] = useState(false);
   const avatarURL = useAvatar(post);
+  const { auth } = useAuth();
+
+
   return (
     <header className="flex items-center justify-between gap-4">
       {/* author info */}
@@ -30,24 +34,31 @@ export default function PostHeader({ post }) {
       </div>
       {/* author info ends */}
       {/* action dot */}
-      <div className="relative">
-        <button onClick={()=> setIsShow(!isShow)}>
-          <img src={threeDots} alt="3dots of Action" />
-        </button>
-        {/* Action Menus Popup */}
-        {isShow && (
-          <div className="action-modal-container ">
-            <button className="action-menu-item hover:text-lwsGreen">
-              <img src={editIcon} alt="Edit" />
-              Edit
-            </button>
-            <button className="action-menu-item hover:text-red-500">
-              <img src={deleteIcon} alt="Delete" />
-              Delete
-            </button>
-          </div>
-        )}
-      </div>
+
+      {auth?.user?.id === post?.author?.id && (
+        <div className="relative">
+          <button onClick={() => setIsShow(!isShow)}>
+            <img src={threeDots} alt="3dots of Action" />
+          </button>
+          {/* Action Menus Popup */}
+          {isShow && (
+            <div className="action-modal-container ">
+              <button className="action-menu-item hover:text-lwsGreen">
+                <img src={editIcon} alt="Edit" />
+                Edit
+              </button>
+              <button
+                className="action-menu-item hover:text-red-500"
+                onClick={() => onDeletePost(post.id)}
+              >
+                <img src={deleteIcon} alt="Delete" />
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* action dot ends */}
     </header>
   );

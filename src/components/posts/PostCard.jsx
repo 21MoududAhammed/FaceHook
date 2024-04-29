@@ -4,14 +4,14 @@ import PostComments from "./PostComments";
 import PostHeader from "./PostHeader";
 import { useState } from "react";
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, onDeletePost }) {
   const [commentQuantity, setCommentQuantity] = useState(post?.comments.length);
   const handleCommentsQuantity = (quantity) => {
     setCommentQuantity(quantity);
   };
   return (
     <article className="card mt-6 lg:mt-8">
-      <PostHeader post={post} />
+      <PostHeader post={post} onDeletePost={onDeletePost}/>
       <PostBody post={post} />
       <PostActions post={post} commentQuantity={commentQuantity} />
       <PostComments
