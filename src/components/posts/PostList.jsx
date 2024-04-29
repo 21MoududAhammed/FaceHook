@@ -5,14 +5,19 @@ import { actions } from "../../actions";
 import useProfile from "../../hooks/useProfile";
 
 export default function PostList({ posts }) {
-  const { dispatch } = usePosts();
+  const { dispatch: postsDispatch } = usePosts();
+  const {dispatch: profileDispatch} = useProfile();
   const { api } = useAxios();
   const handleDeletePost = async (id) => {
     try {
       const response = await api.delete(`/posts/${id}`);
       if (response.status === 200) {
-        dispatch({
+        postsDispatch({
           type: actions.post.POST_DELETED,
+          payload: id,
+        });
+        profileDispatch({
+          type: actions.profile.PROFILE_POST_DELETED,
           payload: id,
         });
       }
