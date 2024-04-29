@@ -13,7 +13,7 @@ export default function PrivateRoute() {
           <PostProvider>
             <ProfileProvider>
               <Header />
-              <main className="mx-auto max-w-screen-2xl pt-2 pb-8">
+              <main className="mx-auto max-w-screen-md pt-2 pb-8">
                 <div className="container">
                   <Outlet />
                 </div>
