@@ -17,14 +17,22 @@ const postReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        posts: action.payload,
+        posts: action.payload.sort((a,b)=>{
+          const dateA = new Date(a.createAt);
+          const dateB = new Date(b.createAt);
+          return dateB - dateA;
+        })
       };
     }
     case actions.post.POST_CREATED: {
       return {
         ...state,
         loading: false,
-        posts: [...state.posts, action.payload],
+        posts: [...state.posts, action.payload].sort((a,b)=>{
+          const dateA = new Date(a.createAt);
+          const dateB = new Date(b.createAt);
+          return dateB - dateA;
+        })
       };
     }
     case actions.post.POST_DELETED:{

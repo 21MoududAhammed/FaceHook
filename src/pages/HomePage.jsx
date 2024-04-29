@@ -20,6 +20,7 @@ export default function HomePage() {
         });
         const response = await api.get("/posts");
         if (response?.status === 200) {
+          console.log(response)
           dispatch({
             type: actions.post.DATA_FETCHED,
             payload: response.data,

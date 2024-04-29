@@ -19,7 +19,11 @@ const profileReducer = (state,action) =>{
             return {
                 ...state,
                 loading: false,
-                posts: action.payload.posts,
+                posts: action.payload.posts.sort((a,b)=>{
+                    const dateA = new Date(a.createAt);
+                    const dateB = new Date(b.createAt);
+                    return dateB - dateA;
+                }),
                 user: action.payload.user,
             }
         }
