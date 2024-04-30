@@ -5,6 +5,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import PrivateRoute from "./routes/PrivateRoute";
+import EditPost from "./components/common/EditPost";
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<HomePage />} exact />
         <Route path="/me" element={<ProfilePage />} />
+        <Route path="/edit" element={<EditPost/>}/>
       </Route>
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />

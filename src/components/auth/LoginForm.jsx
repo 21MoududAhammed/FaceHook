@@ -62,17 +62,7 @@ export default function LoginForm() {
               value: 8,
               message: "Password must be at least 8 characters long.",
             },
-            validate: {
-              uppercase: (value) =>
-                /[A-Z]/.test(value) ||
-                "Password must contain at least one uppercase letter",
-              lowercase: (value) =>
-                /[a-z]/.test(value) ||
-                "Password must contain at least one lowercase letter",
-              // specialCharacter: (value) =>
-              //   /[@$!%*?&]/.test(value) ||
-              //   "Password must contain at least a special character",
-            },
+          
           })}
           className="auth-input"
           type="password"

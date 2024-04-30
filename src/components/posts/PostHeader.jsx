@@ -6,12 +6,16 @@ import { useState } from "react";
 import useAvatar from "../../hooks/useAvatar";
 import { getTimeBasedOnCreationTime } from "../../utils/index";
 import useAuth from "../../hooks/useAuth";
+import {useNavigate} from 'react-router-dom';
+import useEditPost from "../../hooks/useEditPost";
 
 export default function PostHeader({ post, onDeletePost }) {
   const [isShow, setIsShow] = useState(false);
   const avatarURL = useAvatar(post);
   const { auth } = useAuth();
-
+  const { setEditablePost} = useEditPost();
+  
+  const navigate = useNavigate();
 
   return (
     <header className="flex items-center justify-between gap-4">
@@ -43,7 +47,12 @@ export default function PostHeader({ post, onDeletePost }) {
           {/* Action Menus Popup */}
           {isShow && (
             <div className="action-modal-container ">
-              <button className="action-menu-item hover:text-lwsGreen">
+              <button className="action-menu-item hover:text-lwsGreen"
+              onClick={()=> {
+                setEditablePost(post)
+                navigate('/edit')
+              }}
+              >
                 <img src={editIcon} alt="Edit" />
                 Edit
               </button>

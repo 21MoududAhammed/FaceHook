@@ -7,10 +7,12 @@ import { initialState, postReducer } from "../reducers/postReducer";
 import PostEntry from "../components/home/PostEntry";
 import usePosts from "../hooks/usePosts";
 
+
 export default function HomePage() {
   const { api } = useAxios();
   const {state, dispatch} = usePosts();
   const [isShow, setIsShow] = useState(false);
+  
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -20,7 +22,7 @@ export default function HomePage() {
         });
         const response = await api.get("/posts");
         if (response?.status === 200) {
-          console.log(response)
+          // console.log(response)
           dispatch({
             type: actions.post.DATA_FETCHED,
             payload: response.data,
