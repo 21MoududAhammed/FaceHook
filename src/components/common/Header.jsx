@@ -1,4 +1,4 @@
-import logo from "../../assets/images/logo.svg";
+import logo from "../../assets/faceHook.png";
 import homeIcon from "../../assets/icons/home.svg";
 import notificationIcon from "../../assets/icons/notification.svg";
 import Logout from "./Logout";
@@ -21,12 +21,13 @@ export default function Header() {
     <nav className="sticky top-0 z-50 border-b border-[#3F3F3F] bg-[#1E1F24] py-4">
       <div className="container flex flex-col items-center justify-between gap-6 sm:flex-row">
         {/* Logo */}
-        <a href="./index.html">
+        <Link to="/" className='flex gap-3 items-center'>
           <img
-            className="max-w-[100px] rounded-full lg:max-w-[130px]"
+            className="max-w-[100px] rounded lg:max-w-[130px]"
             src={logo}
           />
-        </a>
+          <h1 className="text-2xl font-bold font-sans">FaceHook</h1>
+        </Link>
         {/* nav links  */}
         <div className="flex items-center space-x-4">
           <Link to="/" className="btn-primary">
